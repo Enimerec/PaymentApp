@@ -1,5 +1,7 @@
 package pl.sda.EmployeeUtils;
 
+import pl.sda.DataUtils.DataUtils;
+
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -32,7 +34,7 @@ public class HourlyEmployee implements Payable {
     @Override
     public BigDecimal calculatePayment(LocalDate day) {
         if(isPaymentDay(day)){
-            LocalDate monday = findMonday(day);
+            LocalDate monday = DataUtils.findMonday(day);
             List<WorkingDay>weekWorkingDays = findWorkingDays(monday,day);
             return calculatePayment(weekWorkingDays);
 
@@ -78,10 +80,4 @@ public class HourlyEmployee implements Payable {
                 collect(Collectors.toList());
     }
 
-    private LocalDate findMonday(LocalDate day) {
-        if(day.getDayOfWeek() != DayOfWeek.FRIDAY){
-            throw new IllegalArgumentException("Metoda findMonday musi byc wywolana dla piatku");
-        }
-        return  day.minusDays(4);
-    }
 }
